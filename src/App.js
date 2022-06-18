@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+
+import Block from './3d-components/Block';
+
+import './App.scss';
+import { grassBlock } from './contants/blocks';
+
+const floor = new Array(10).fill(grassBlock);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Canvas style={{ position: 'absolute', height: '100%', width: '100%' }}>
+      <PerspectiveCamera />
+      <OrbitControls />
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      {floor.map((blockType, x) => (
+        <group key={`${x}`}>
+          {floor.map((blockType1, y) => (
+            <Block key={`${x}-${y}`} faces={blockType} position={[x, 0, y]} />
+          ))}
+        </group>
+      ))}
+    </Canvas>
   );
 }
 
